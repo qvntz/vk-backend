@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from main import CrossZeros
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def cross_zeros():
     return CrossZeros()
 
@@ -34,16 +34,3 @@ def test_win(cross_zeros, test_input, expected):
         cross_zeros.board[i] = expected
     assert cross_zeros.check_winner() == expected
 
-
-@pytest.mark.parametrize(
-    'test_input, expected',
-    [
-        (['1', '5', '2', '3', '7', '4', '6', '8', '9'], None),
-        (['9', '5', '1', '3', '7', '4', '6', '8', '2'], None)
-    ]
-)
-def test_draw(cross_zeros, monkeypatch, test_input, expected):
-    input_mock = Mock()
-    input_mock.side_effect = test_input
-    with patch('builtins.input', input_mock):
-        assert cross_zeros.start_game() == expected
