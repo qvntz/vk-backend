@@ -3,7 +3,10 @@ from typing import Union
 
 
 class CrossZeros:
-    win_coord = ((1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7), (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7))
+    win_coord = (
+        (1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7),
+        (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7)
+    )
 
     user = 'x'
     board = {i: str(i) for i in range(1, 10)}
@@ -22,13 +25,14 @@ class CrossZeros:
         self.show_board()
 
         try:
-            x = int(input(f'Ход {self.user}, введите число от 1 до 9: '))
+            coord = int(input(f'Ход {self.user}, введите число от 1 до 9: '))
         except ValueError:
             print("Некорректный ввод")
             return None
-        if 0 < x < 10 and self.board[x]:
+        if 0 < coord < 10 and self.board[coord]:
             self.count += 1
-            return x
+            return coord
+        return None
 
     def start_game(self) -> None:
         while (winner := self.check_winner()) is None:
@@ -41,9 +45,8 @@ class CrossZeros:
                     self.user = 'x'
                 else:
                     self.user = 'o'
-        else:
-            print(f'Победил {winner}!!')
-            return winner
+        print(f'Победил {winner}!!')
+        return winner
 
     def check_winner(self) -> Union[None, str]:
         for i in self.win_coord:

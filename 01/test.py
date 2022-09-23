@@ -10,8 +10,8 @@ def cross_zeros():
 
 def test_foo(capfd, cross_zeros):
     cross_zeros.show_board()
-    out, err = capfd.readouterr()
-    assert out == '| 1 | 2 | 3 |\n| 4 | 5 | 6 |\n| 7 | 8 | 9 |\n'
+    out = capfd.readouterr()
+    assert out[0] == '| 1 | 2 | 3 |\n| 4 | 5 | 6 |\n| 7 | 8 | 9 |\n'
 
 
 @pytest.mark.parametrize(
