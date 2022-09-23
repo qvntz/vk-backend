@@ -21,15 +21,14 @@ class CrossZeros:
         print()
         self.show_board()
 
-        if (x := input(f'Ход {self.user}, введите число от 1 до 9: ')).isdigit() \
-                and 0 < int(x) < 10 \
-                and self.board[int(x)]:
-            x = int(x)
-            self.count += 1
-            return x
-        else:
+        try:
+            x = int(input(f'Ход {self.user}, введите число от 1 до 9: '))
+        except ValueError:
             print("Некорректный ввод")
             return None
+        if 0 < x < 10 and self.board[x]:
+            self.count += 1
+            return x
 
     def start_game(self) -> None:
         while (winner := self.check_winner()) is None:

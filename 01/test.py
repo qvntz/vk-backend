@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import Mock, patch
 
 from main import CrossZeros
 
@@ -9,11 +8,17 @@ def cross_zeros():
     return CrossZeros()
 
 
+def test_foo(capfd, cross_zeros):
+    cross_zeros.show_board()
+    out, err = capfd.readouterr()
+    assert out == '| 1 | 2 | 3 |\n| 4 | 5 | 6 |\n| 7 | 8 | 9 |\n'
+
+
 @pytest.mark.parametrize(
     "test_input, expected",
     [
         ('a', None), (' ', None), ('0', None), ('10', None), ('1.1', None),
-        ('1', 1), ('2', 2), ('3', 3), ('9', 9)
+        ('1', 1), ('2', 2), ('3', 3), ('9', 9), ('²', None)
     ]
 )
 def test_validate_input(cross_zeros, monkeypatch, test_input, expected):
@@ -32,5 +37,4 @@ def test_validate_input(cross_zeros, monkeypatch, test_input, expected):
 def test_win(cross_zeros, test_input, expected):
     for i in test_input:
         cross_zeros.board[i] = expected
-    assert cross_zeros.check_winner() == expected
-
+    assert cross_zeros.start_game() == expected
